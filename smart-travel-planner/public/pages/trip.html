@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Details - Smart Travel Planner</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animation.css" />
+    <link rel="stylesheet" href="trip.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Add toast notifications -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">
+          <i class="fas fa-plane"></i>
+          <span>Smart Travel Planner</span>
+        </div>
+        <div class="nav-links">
+          <a href="dashboard.html" class="btn">Dashboard</a>
+          <a href="planner.html" class="btn">Planner</a>
+          <a href="expenses.html" class="btn">Expenses</a>
+          <button onclick="logout()" class="btn btn-outline">Logout</button>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-4">
+      <h2 id="trip-title" class="fade-in">Trip Details</h2>
+
+      <div id="trip-info" class="fade-in">
+        <!-- Trip information will be dynamically populated -->
+      </div>
+
+      <div id="trip-members" class="slide-in">
+        <h3>Trip Members</h3>
+        <!-- Member cards will be dynamically populated -->
+      </div>
+
+      <div id="trip-places" class="fade-in">
+        <!-- Place cards will be dynamically populated -->
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-action" onclick="editTrip()">
+          <i class="fas fa-edit"></i> Edit Trip
+        </button>
+        <button class="btn-action" onclick="addNewPlace()">
+          <i class="fas fa-plus"></i> Add Place
+        </button>
+        <button class="btn-action btn-secondary" onclick="shareTrip()">
+          <i class="fas fa-share"></i> Share Trip
+        </button>
+      </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Share Trip</h3>
+        <div class="form-group">
+          <label>Share Link</label>
+          <input type="text" id="shareLink" readonly />
+        </div>
+        <div class="form-group">
+          <label>Add Member</label>
+          <input
+            type="email"
+            id="memberEmail"
+            placeholder="Enter email address"
+          />
+          <button class="btn-action" onclick="inviteMember()">
+            Send Invite
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+      // Notification helper
+      function notify(message, type = "success") {
+        Toastify({
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor:
+            type === "success" ? "var(--success-color)" : "var(--danger-color)",
+          className: "toast-notification",
+        }).showToast();
+      }
+
+      // Add loading state to buttons
+      function setLoading(button, isLoading) {
+        if (isLoading) {
+          button.disabled = true;
+          button.innerHTML = '<span class="loading-spinner"></span> Loading...';
+        } else {
+          button.disabled = false;
+          button.innerHTML = button.getAttribute("data-original-text");
+        }
+      }
+
+      // Save original button text
+      document.querySelectorAll(".btn-action").forEach((btn) => {
+        btn.setAttribute("data-original-text", btn.innerHTML);
+      });
+
+      function editTrip() {
+        window.location.href = `planner.html?edit=trip&id=${tripId}`;
+      }
+
+      function addNewPlace() {
+        window.location.href = `planner.html?add=place&trip=${tripId}`;
+      }
+
+      // Modal handling with animations
+      const modal = document.getElementById("shareModal");
+      const closeBtn = document.getElementsByClassName("close")[0];
+      const modalContent = modal.querySelector(".modal-content");
+
+      function shareTrip() {
+        modal.style.display = "block";
+        setTimeout(() => modalContent.classList.add("slide-in-up"), 10);
+        const shareLink =
+          window.location.origin + window.location.pathname + "?id=" + tripId;
+        document.getElementById("shareLink").value = shareLink;
+      }
+
+      function closeModal() {
+        modalContent.classList.remove("slide-in-up");
+        modalContent.classList.add("fade-out");
+        setTimeout(() => {
+          modal.style.display = "none";
+          modalContent.classList.remove("fade-out");
+        }, 300);
+      }
+
+      closeBtn.onclick = closeModal;
+      window.onclick = (event) => {
+        if (event.target === modal) closeModal();
+      };
+
+      async function inviteMember() {
+        const emailInput = document.getElementById("memberEmail");
+        const email = emailInput.value.trim();
+        const inviteBtn = document.querySelector(
+          '.btn-action[onclick="inviteMember()"]'
+        );
+
+        if (!email) {
+          notify("Please enter an email address", "error");
+          return;
+        }
+
+        if (!validateEmail(email)) {
+          notify("Please enter a valid email address", "error");
+          return;
+        }
+
+        setLoading(inviteBtn, true);
+
+        try {
+          const response = await fetch(`${API_URL}/trips.php`, {
+            method: "POST",
+            headers: {
+              ...getAuthHeaders(),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "invite",
+              trip_id: tripId,
+              email: email,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            notify("Invitation sent successfully!");
+            emailInput.value = "";
+            closeModal();
+          } else {
+            notify(data.message || "Failed to send invitation", "error");
+          }
+        } catch (error) {
+          notify("Failed to send invitation. Please try again.", "error");
+        } finally {
+          setLoading(inviteBtn, false);
+        }
+      }
+
+      // Copy share link functionality
+      document
+        .getElementById("shareLink")
+        .addEventListener("click", function () {
+          this.select();
+          document.execCommand("copy");
+          notify("Share link copied to clipboard!");
+        });
+    </script>
+    <script src="../js/trip.js"></script>
+  </body>
+</html>

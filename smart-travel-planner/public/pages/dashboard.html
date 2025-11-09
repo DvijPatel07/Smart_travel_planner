@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+       
+    <meta charset="UTF-8" />
+       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       
+    <title>Dashboard - Smart Travel Planner</title>
+    <link rel="stylesheet" href="dashboard_clean.css" />
+       
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+       
+    <nav class="navbar">
+             
+      <div class="container">
+                   
+        <div class="logo">
+                          <i class="fas fa-plane"></i>                
+          <span>Smart Travel Planner</span>            
+        </div>
+                   
+        <div class="nav-links">
+                          <span id="username-display"></span>                
+          <a href="planner.html" class="btn">Planner</a>                
+          <a href="expenses.html" class="btn">Expenses</a>                
+          <button onclick="logout()" class="btn btn-outline">Logout</button>    
+                 
+        </div>
+               
+      </div>
+         
+    </nav>
+       
+    <div class="dashboard">
+             
+      <div class="container">
+                   
+        <div class="dashboard-header">
+                         
+          <h1>Welcome <span id="username-display"></span></h1>
+                         
+          <div class="welcome-image-wrapper">
+                                <img src="images.jpeg" alt="Welcome Photo" />  
+                         
+          </div>
+                         
+          <form
+            id="create-trip-form"
+            class="auth-form"
+            style="max-width: 400px"
+          >
+                               
+            <div class="form-group">
+                                      <label for="trip-name">Trip Name</label>  
+                                   
+              <input type="text" id="trip-name" required />                    
+            </div>
+                               
+            <div class="form-group">
+                                     
+              <label for="destination">Destination</label>                      
+                <input type="text" id="destination" required />                
+                 
+            </div>
+                               
+            <div class="form-group">
+                                     
+              <label for="start-date">Start Date</label>                        
+              <input type="date" id="start-date" required />                    
+            </div>
+                               
+            <div class="form-group">
+                                      <label for="end-date">End Date</label>    
+                                  <input type="date" id="end-date" required />  
+                               
+            </div>
+                               
+            <div class="form-group">
+                                     
+              <label for="description">Description</label>                      
+                <textarea id="description" rows="3"></textarea>                
+                 
+            </div>
+                               
+            <button type="submit" class="btn btn-primary btn-block mt-2">
+              Create Trip
+            </button>
+                           
+          </form>
+                     
+        </div>
+                   
+        <div class="dashboard-content">
+                         
+          <h2>Your Trips</h2>
+                         
+          <div class="trips-grid" id="trips-container">
+                               
+            <!-- Example trip card, add dynamically -->
+                               
+            <!-- <div class="trip-card">Trip details here</div> -->
+                           
+          </div>
+                     
+        </div>
+               
+      </div>
+         
+    </div>
+       
+    <script src="../js/auth.js"></script>
+       
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>

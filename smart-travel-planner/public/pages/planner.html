@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Planner - Smart Travel Planner</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Same layout as dashboard -->
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-plane"></i>
+                <span>Smart Travel Planner</span>
+            </div>
+            <div class="nav-links">
+                <a href="dashboard.html" class="btn">Dashboard</a>
+                <a href="expenses.html" class="btn">Expenses</a>
+                <button onclick="logout()" class="btn btn-outline">Logout</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h2>Smart Planner</h2>
+        <div class="search-box">
+            <form id="city-search-form" class="search-input">
+                <label for="trip-selector"><b>Select Trip:</b></label>
+                <select id="trip-selector"></select>
+                <input type="text" id="city-input" required placeholder="Enter city name">
+                <button type="submit" class="btn btn-primary">Search Places</button>
+            </form>
+        </div>
+        <div id="places-results" class="search-results"></div>
+    </div>
+    <script src="../js/auth.js"></script>
+<script src="../js/planner.js"></script>
+
+</body>
+</html>

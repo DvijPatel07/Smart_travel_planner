@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Expenses - Smart Travel Planner</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .header-with-back {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+      .btn-with-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid #246dff;
+        color: #246dff;
+        background: transparent;
+        cursor: pointer;
+      }
+      .btn-with-icon:hover {
+        background: #246dff;
+        color: white;
+        transform: translateX(-5px);
+      }
+      body {
+        background: linear-gradient(120deg, #f6f7fb 92%, #e1eafe 100%);
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .container {
+        max-width: 720px;
+        margin: 36px auto;
+        background: #fff;
+        padding: 32px 30px 28px 30px;
+        border-radius: 18px;
+        box-shadow: 0 6px 32px #b9c7ea2b;
+      }
+      h2 {
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: #246dff;
+        margin-bottom: 24px;
+        text-align: center;
+        letter-spacing: 0.035em;
+        text-shadow: 0 2px 18px #4681fa1a;
+      }
+      h3 {
+        font-size: 1.35rem;
+        margin-top: 32px;
+        color: #406aaa;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      #expense-form {
+        width: 100%;
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      #expense-form input {
+        padding: 12px;
+        border: 2px solid #e4e9f7;
+        border-radius: 13px;
+        font-size: 1.09rem;
+        background: #f7fafd;
+        transition: border-color 0.3s;
+      }
+      #expense-form input:focus {
+        border-color: #246dff;
+        background: #f7fbff;
+      }
+      #expense-form button {
+        background: linear-gradient(90deg, #286ffa 70%, #46acfa 100%);
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        font-size: 1.06rem;
+        padding: 13px 22px;
+        border-radius: 13px;
+        cursor: pointer;
+        box-shadow: 0 2px 16px #7eaef944;
+        transition: background 0.28s;
+      }
+      #expense-form button:hover {
+        background: linear-gradient(90deg, #44a3fa 40%, #286ffa 100%);
+      }
+      #expenses-list {
+        margin-top: 26px;
+        min-height: 54px;
+      }
+      #expenses-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 12px;
+        box-shadow: 0 2px 18px #c6d7f344;
+        margin-top: 12px;
+        font-size: 1.06rem;
+        overflow: hidden;
+      }
+      #expenses-table th,
+      #expenses-table td {
+        padding: 13px 11px;
+      }
+      #expenses-table thead {
+        background: linear-gradient(90deg, #e3f2fd 80%, #f6fafd 100%);
+      }
+      #expenses-table th {
+        color: #246dff;
+        font-weight: 700;
+        font-size: 1.12rem;
+        border-bottom: 2px solid #edeef9;
+        text-align: left;
+      }
+      #expenses-table td {
+        color: #2a3551;
+        font-weight: 500;
+        background: #f8fbff;
+        border-bottom: 1px solid #eae9fa;
+      }
+      #expenses-table tbody tr:hover td {
+        background: #e8f1fd69;
+        transition: background 0.2s;
+      }
+      .error-fetching-trips {
+        color: #c82333;
+        font-weight: 600;
+        margin-top: 7px;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar"></nav>
+    <div class="container mt-4">
+      <div class="header-with-back">
+        <button onclick="goBack()" class="btn btn-outline btn-with-icon">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h2>Trip Expenses</h2>
+      </div>
+      <form id="expense-form" class="expense-input-group">
+        <input
+          type="text"
+          id="description"
+          placeholder="Description (e.g., Croissant)"
+          required
+        />
+        <input
+          type="number"
+          id="amount"
+          step="0.01"
+          placeholder="Amount (e.g., 1450.00)"
+          required
+        />
+        <button type="submit" class="btn btn-primary">
+          <i class="fa-solid fa-plus"></i> Add Expense
+        </button>
+      </form>
+      <div
+        id="error-message"
+        class="error-fetching-trips"
+        style="display: none"
+      >
+        Error fetching trips.
+      </div>
+      <h3>Expenses List</h3>
+      <div id="expenses-list">
+        <p>Loading expenses...</p>
+      </div>
+    </div>
+    <script src="../js/auth.js"></script>
+    <script src="../js/expenses.js"></script>
+  </body>
+</html>

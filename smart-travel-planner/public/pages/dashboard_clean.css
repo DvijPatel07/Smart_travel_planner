@@ -1,0 +1,57 @@
+/* Clean dashboard styles for dashboard page */
+:root{--bg1:#f8f9fa;--bg2:#e9ecef;--accent:#4361ee;--accent-2:#7209b7}
+html,body{height:100%}
+body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#333}
+.container{max-width:960px;margin:0 auto;padding:0 16px}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff}
+.navbar .logo{font-weight:700;display:flex;align-items:center;gap:8px}
+.navbar .logo span{
+	font-size:1.8rem; /* increased for better visibility */
+	line-height:1;
+	display:inline-block;
+	margin-left:6px;
+}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-links a.btn{background:#ffd700;color:#222;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+
+/* Styled logout / outline button */
+.nav-links button.btn-outline{
+	background: transparent;
+	color: #fff;
+	padding: 8px 14px;
+	border-radius: 10px;
+	border: 2px solid rgba(255,255,255,0.9);
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.nav-links button.btn-outline:hover{
+	background: rgba(255,255,255,0.12);
+	transform: translateY(-3px);
+	box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+
+.nav-links button.btn-outline:active{
+	transform: translateY(-1px) scale(.995);
+}
+
+.nav-links button.btn-outline:focus{
+	outline: 3px solid rgba(67,97,238,0.18);
+	outline-offset: 3px;
+}
+.dashboard{padding:28px 0}
+.dashboard-header{background:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.06);text-align:center;margin-bottom:24px}
+.welcome-image-wrapper{max-width:640px;margin:18px auto;border-radius:16px;overflow:hidden;height:220px;background:linear-gradient(135deg,#a2caff,#4a90e2);display:flex;align-items:center;justify-content:center}
+.auth-form{max-width:520px;margin:0 auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(67,97,238,.06)}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;margin-bottom:6px;font-weight:600}
+.form-group input,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e6e6e6}
+.btn-primary{display:inline-block;width:100%;padding:12px 0;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:none;font-weight:700}
+.trips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:18px}
+.trip-card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,.05);cursor:pointer}
+.trip-card h3{margin:0 0 8px;color:var(--accent)}
+@media (max-width:680px){.welcome-image-wrapper{height:160px}.auth-form{padding:16px}}
